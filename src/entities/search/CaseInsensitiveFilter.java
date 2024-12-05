@@ -1,4 +1,4 @@
-package entities.search.search;
+package entities.search;
 
 public class CaseInsensitiveFilter<T> implements Filter<T> {
     private final String valueToFind;

@@ -1,4 +1,4 @@
-package entities.search.search;
+package entities.search;
 
 public class RangeFilter<T, V extends Comparable<V>> implements Filter<T> {
     private final FieldExtractor<T, V> fieldExtractor;

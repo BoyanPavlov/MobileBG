@@ -1,15 +1,38 @@
+import entities.search.CaseInsensitiveFilter;
+import entities.search.ExactValueFilter;
+import entities.search.Filter;
+import entities.search.RangeFilter;
+import vehicle.Car;
+
+import java.util.List;
+
 //TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or
 // click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
 public class Main {
     public static void main(String[] args) {
-        //TIP Press <shortcut actionId="ShowIntentionActions"/> with your caret at the highlighted text
-        // to see how IntelliJ IDEA suggests fixing it.
-        System.out.printf("Hello and welcome!");
+        Car car = new Car("Toyota", "Corolla", 2021, true);
+        Car car2 = new Car("Bmw", "e60", 2000, false);
 
-        for (int i = 1; i <= 5; i++) {
-            //TIP Press <shortcut actionId="Debug"/> to start debugging your code. We have set one <icon src="AllIcons.Debugger.Db_set_breakpoint"/> breakpoint
-            // for you, but you can always add more by pressing <shortcut actionId="ToggleLineBreakpoint"/>.
-            System.out.println("i = " + i);
-        }
+        // всичките хиляди коли които имаме
+        List<Car> cars = List.of(car, car2);
+
+        List<Filter<Car>> filters = List.of(
+                new ExactValueFilter<>(Car::getBrand, "Toyota"),
+                new CaseInsensitiveFilter<>(Car::getModel, "Corolla"),
+                new RangeFilter<>(Car::getYear, 2000, 2022),
+                new RangeFilter<>(Car::getBrand, "Bmw", "Toyota")
+        );
+
+        // само колите от филтрите
+        List<Car> matchingCars = filterCars(cars, filters);
+        System.out.println("Matching cars:");
+        matchingCars.forEach(System.out::println);
+    }
+
+    // не му е мястото тук, само за демонстративни цели е
+    private static List<Car> filterCars(List<Car> cars, List<Filter<Car>> filters) {
+        return cars.stream()
+                .filter(car -> filters.stream().allMatch(filter -> filter.matches(car)))
+                .toList();
     }
 }

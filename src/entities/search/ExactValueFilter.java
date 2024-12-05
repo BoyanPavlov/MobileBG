@@ -1,4 +1,4 @@
-package entities.search.search;
+package entities.search;
 
 public class ExactValueFilter<T, V> implements Filter<T> {
     private final V valueToFind;
