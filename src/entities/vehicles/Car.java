@@ -1,12 +1,14 @@
-package entities.vehicle;
+package entities.vehicles;
 
 import java.util.Objects;
+import java.util.UUID;
 
 public class Car {
     private String brand;
     private String model;
     private Integer year;
     private boolean isManual;
+    private final UUID id;
 
     // Constructor
     public Car(String brand, String model, Integer year, boolean isManual) {
@@ -14,6 +16,11 @@ public class Car {
         this.model = model;
         this.year = year;
         this.isManual = isManual;
+        this.id = UUID.randomUUID();
+    }
+
+    public UUID getId() {
+        return id;
     }
 
     // Getters

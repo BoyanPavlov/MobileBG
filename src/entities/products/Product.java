@@ -1,18 +1,26 @@
 package entities.products;
 
 import java.time.LocalDate;
+import java.util.UUID;
 
 public class Product {
     private String name;
     private String category;
     private LocalDate createdAt;
+    private final UUID id;
 
     // Constructor
     public Product(String name, String category, LocalDate createdAt) {
         this.name = name;
         this.category = category;
         this.createdAt = createdAt; // Can be null
+        this.id = UUID.randomUUID();
     }
+
+    public UUID getId() {
+        return id;
+    }
+
 
     // Getters and Setters
     public String getName() {

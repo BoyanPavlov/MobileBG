@@ -1,18 +1,23 @@
 package entities.users;
 
-import entities.users.Role;
-
 import java.util.Set;
+import java.util.UUID;
 
 public abstract class User {
     private String name;
     private String password;
     private String email;
+    private final UUID id;
 
     public User(String name, String password, String email) {
         this.name = name;
         this.password = password;
         this.email = email;
+        this.id = UUID.randomUUID();
+    }
+
+    public UUID getId() {
+        return id;
     }
 
     public String getName() {
@@ -43,6 +48,6 @@ public abstract class User {
 
     @Override
     public String toString() {
-        return "User{name='" + name + "', email='" + email + "', roles=" + getRoles() + "}";
+        return "User{id='" + id + "', name='" + name + "', email='" + email + "', roles=" + getRoles() + "}";
     }
 }

@@ -1,4 +1,4 @@
-package vehicle;
+package entities.vehicles;
 
 public interface Vehicle {
 }

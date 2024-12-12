@@ -8,11 +8,21 @@ public class LoggedInUser extends User {
     private String address;
     private Set<Role> roles;
 
+    public LoggedInUser(String name, String password, String email, String phoneNumber, String address) {
+        this(name, password, email, phoneNumber, address, Role.BUYER); // Default to Role.BUYER
+    }
+
+    // Constructor with a single Role
+    public LoggedInUser(String name, String password, String email, String phoneNumber, String address, Role role) {
+        this(name, password, email, phoneNumber, address, EnumSet.of(role != null ? role : Role.BUYER)); // Default to Role.BUYER if null
+    }
+
+    // Constructor with multiple Roles
     public LoggedInUser(String name, String password, String email, String phoneNumber, String address, Set<Role> roles) {
         super(name, password, email);
-        this.phoneNumber = phoneNumber;
-        this.address = address;
-        this.roles = EnumSet.copyOf(roles); // Ensures roles are unique
+        this.phoneNumber = phoneNumber != null ? phoneNumber : "Unknown Phone";
+        this.address = address != null ? address : "Unknown Address";
+        this.roles = roles != null && !roles.isEmpty() ? EnumSet.copyOf(roles) : EnumSet.of(Role.BUYER); // Default to Role.BUYER if roles are null or empty
     }
 
     public String getPhoneNumber() {
