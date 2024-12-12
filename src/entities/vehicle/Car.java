@@ -1,4 +1,4 @@
-package vehicle;
+package entities.vehicle;
 
 import java.util.Objects;
 
