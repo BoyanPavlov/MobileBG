@@ -1,18 +1,20 @@
 package entities.users;
 
+import entities.users.Role;
+
+import java.util.Set;
+
 public abstract class User {
     private String name;
     private String password;
     private String email;
 
-    // Constructor
     public User(String name, String password, String email) {
         this.name = name;
         this.password = password;
         this.email = email;
     }
 
-    // Getters and Setters
     public String getName() {
         return name;
     }
@@ -37,14 +39,10 @@ public abstract class User {
         this.email = email;
     }
 
-    // Abstract method to be implemented by subclasses
-    public abstract String getRole();
+    public abstract Set<Role> getRoles();
 
     @Override
     public String toString() {
-        return "User{" +
-                "name='" + name + '\'' +
-                ", email='" + email + '\'' +
-                '}';
+        return "User{name='" + name + "', email='" + email + "', roles=" + getRoles() + "}";
     }
 }
