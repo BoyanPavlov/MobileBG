@@ -15,6 +15,7 @@ public class RangeFilter<T, V extends Comparable<V>> implements Filter<T> {
     public boolean matches(T item) {
         V value = fieldExtractor.extractValue(item);
         return value.compareTo(min) >= 0
-            && value.compareTo(max) <= 0;
+                && value.compareTo(max) <= 0;
     }
+
 }

@@ -9,9 +9,10 @@ public class CaseInsensitiveFilter<T> implements Filter<T> {
         this.fieldExtractor = fieldExtractor;
     }
 
+    @Override
     public boolean matches(T item) {
         String value = fieldExtractor.extractValue(item);
-        return value.equalsIgnoreCase(valueToFind);
+        return value != null && value.trim().toLowerCase().contains(valueToFind);
     }
 }
 

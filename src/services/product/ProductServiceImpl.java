@@ -3,8 +3,7 @@ package services.product;
 import entities.products.Product;
 import repositories.product.ProductRepository;
 
-
-import java.util.UUID;
+import java.util.List;
 
 public class ProductServiceImpl implements ProductService {
     private final ProductRepository productRepository;
@@ -20,26 +19,13 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public void deleteProduct(UUID id) {
-        productRepository.findById(id).ifPresentOrElse(
-                product -> {
-                    productRepository.delete(id);
-                    System.out.println("Product deleted: " + product);
-                },
-                () -> System.out.println("Product with ID " + id + " not found.")
-        );
-    }
-
-    @Override
-    public void findProductById(UUID id) {
-        productRepository.findById(id).ifPresentOrElse(
-                product -> System.out.println("Product found: " + product),
-                () -> System.out.println("Product with ID " + id + " not found.")
-        );
-    }
-
-    @Override
     public void listAllProducts() {
+        System.out.println("All products: ");
         productRepository.findAll().forEach(System.out::println);
+    }
+
+    @Override
+    public List<Product> getProducts() {
+        return productRepository.findAll();
     }
 }

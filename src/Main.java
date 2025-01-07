@@ -1,25 +1,22 @@
-import entities.products.Product;
-import entities.users.LoggedInUser;
-import entities.users.Role;
-import entities.users.User;
+import entities.search.CaseInsensitiveFilter;
+import entities.search.ExactValueFilter;
+import entities.search.Filter;
+import entities.search.RangeFilter;
 import entities.vehicles.Car;
-import repositories.car.CarRepository;
 import repositories.car.CarRepositoryImpl;
-import repositories.product.ProductRepository;
+import repositories.listing.ListingRepository;
+import repositories.listing.ListingRepositoryImpl;
 import repositories.product.ProductRepositoryImpl;
-import repositories.user.UserRepository;
 import repositories.user.UserRepositoryImpl;
-import services.car.CarService;
 import services.car.CarServiceImpl;
-import services.product.ProductService;
+import services.listing.ListingService;
+import services.listing.ListingServiceImpl;
 import services.product.ProductServiceImpl;
-import services.user.UserService;
+import services.productCar.ProductCarServiceImpl;
 import services.user.UserServiceImpl;
+import view.ConsoleView;
 
-import java.time.LocalDate;
-import java.util.EnumSet;
-import java.util.Set;
-import java.util.UUID;
+import java.util.List;
 
 //TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or
 // click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
@@ -27,14 +24,15 @@ public class Main {
 //    public static void main(String[] args) {
 //        Car car = new Car("Toyota", "Corolla", 2021, true);
 //        Car car2 = new Car("Bmw", "e60", 2000, false);
+//        Car car3 = new Car("Honda", "CRV", 2005, false);
 //
 //        // всичките хиляди коли които имаме
-//        List<Car> cars = List.of(car, car2);
+//        List<Car> cars = List.of(car, car2, car3);
 //
 //        List<Filter<Car>> filters = List.of(
 //                new ExactValueFilter<>(Car::getBrand, "Toyota"),
 //                new CaseInsensitiveFilter<>(Car::getModel, "Corolla"),
-//                new RangeFilter<>(Car::getYear, 2000, 2022),
+//                new RangeFilter<>(Car::getYear, 2001, 2022),
 //                new RangeFilter<>(Car::getBrand, "Bmw", "Toyota")
 //        );
 //
@@ -129,34 +127,62 @@ public class Main {
 //    }
 
 
+//    public static void main(String[] args) {
+//        // Create repository and service
+//        ProductRepository productRepository = new ProductRepositoryImpl();
+//        ProductService productService = new ProductServiceImpl(productRepository);
+//
+//        // Create products
+//        Product product1 = new Product("Smartphone", "Electronics", LocalDate.now());
+//        Product product2 = new Product("Laptop", "Computers", LocalDate.of(2023, 1, 15));
+//
+//        // Add products
+//        productService.addProduct(product1);
+//        productService.addProduct(product2);
+//
+//        // Find a product by ID
+//        productService.findProductById(product1.getId());
+//
+//        // List all products
+//        System.out.println("Listing all products:");
+//        productService.listAllProducts();
+//
+//        // Delete a product
+//        productService.deleteProduct(product1.getId());
+//
+//        // Attempt to find the deleted product
+//        productService.findProductById(product1.getId());
+//
+//        // List all products after deletion
+//        System.out.println("Listing all products after deletion:");
+//        productService.listAllProducts();
+//    }
+
     public static void main(String[] args) {
-        // Create repository and service
-        ProductRepository productRepository = new ProductRepositoryImpl();
-        ProductService productService = new ProductServiceImpl(productRepository);
+        // Initialize repositories and services
+        ListingService listingService = initializeServices();
 
-        // Create products
-        Product product1 = new Product("Smartphone", "Electronics", LocalDate.now());
-        Product product2 = new Product("Laptop", "Computers", LocalDate.of(2023, 1, 15));
+        // Initialize the console view
+        ConsoleView consoleView = new ConsoleView(listingService);
 
-        // Add products
-        productService.addProduct(product1);
-        productService.addProduct(product2);
+        // Start the console view
+        consoleView.start();
+    }
 
-        // Find a product by ID
-        productService.findProductById(product1.getId());
+    private static ListingService initializeServices() {
+        // Repositories
+        var userRepository = new UserRepositoryImpl();
+        var productRepository = new ProductRepositoryImpl();
+        var carRepository = new CarRepositoryImpl();
 
-        // List all products
-        System.out.println("Listing all products:");
-        productService.listAllProducts();
+        // Services
+        var userService = new UserServiceImpl(userRepository);
+        var productService = new ProductServiceImpl(productRepository);
+        var carService = new CarServiceImpl(carRepository);
+        var productCarService = new ProductCarServiceImpl(productService, carService);
 
-        // Delete a product
-        productService.deleteProduct(product1.getId());
-
-        // Attempt to find the deleted product
-        productService.findProductById(product1.getId());
-
-        // List all products after deletion
-        System.out.println("Listing all products after deletion:");
-        productService.listAllProducts();
+        // Listing Repository and Service
+        ListingRepository listingRepository = new ListingRepositoryImpl(productCarService, userService);
+        return new ListingServiceImpl(listingRepository);
     }
 }
