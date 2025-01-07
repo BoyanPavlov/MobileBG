@@ -2,28 +2,27 @@ package repositories.product;
 
 import entities.products.Product;
 
+import java.time.LocalDate;
 import java.util.*;
 
 public class ProductRepositoryImpl implements ProductRepository {
-    private final Map<UUID, Product> productStorage = new HashMap<>();
+    private final List<Product> products = new ArrayList<>();
+
+    public ProductRepositoryImpl() {
+        // Pre-populate with initial data
+        products.add(new Product("Grill", "Car parts", LocalDate.of(2025, 1, 4)));
+        products.add(new Product("Roll cage", "Car parts", LocalDate.now()));
+        products.add(new Product("Tire", "Car parts", LocalDate.of(2024, 12, 4)));
+        products.add(new Product("Radio", "Electronics", LocalDate.of(2024, 10, 3)));
+    }
 
     @Override
     public void save(Product product) {
-        productStorage.put(product.getId(), product);
-    }
-
-    @Override
-    public void delete(UUID id) {
-        productStorage.remove(id);
-    }
-
-    @Override
-    public Optional<Product> findById(UUID id) {
-        return Optional.ofNullable(productStorage.get(id));
+        products.add(product);
     }
 
     @Override
     public List<Product> findAll() {
-        return new ArrayList<>(productStorage.values());
+        return new ArrayList<>(products);
     }
 }
