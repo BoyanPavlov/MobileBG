@@ -1,63 +1,21 @@
 package entities.vehicles;
 
-import java.util.Objects;
-import java.util.UUID;
-
-public class Car {
-    private String brand;
-    private String model;
-    private Integer year;
+public class Car extends Vehicle {
     private boolean isManual;
-    private final UUID id;
 
-    // Constructor
-    public Car(String brand, String model, Integer year, boolean isManual) {
-        this.brand = brand;
-        this.model = model;
-        this.year = year;
+    public Car(String brand, String model, int year, boolean isManual) {
+        super(brand + " " + model, brand, model, year);
         this.isManual = isManual;
-        this.id = UUID.randomUUID();
-    }
-
-    public UUID getId() {
-        return id;
-    }
-
-    // Getters
-    public String getBrand() {
-        return brand;
-    }
-
-    public String getModel() {
-        return model;
-    }
-
-    public Integer getYear() {
-        return year;
     }
 
     public boolean isManual() {
         return isManual;
     }
 
-    // Setters
-    public void setBrand(String brand) {
-        this.brand = brand;
+    public void setManual(boolean manual) {
+        isManual = manual;
     }
 
-    public void setModel(String model) {
-        this.model = model;
-    }
-
-    public void setYear(Integer year) {
-        this.year = year;
-    }
-
-    public void setManual(boolean isManual) {
-        this.isManual = isManual;
-    }
-
-    // toString Method
     @Override
     public String toString() {
         return "Car{" +
@@ -66,22 +24,5 @@ public class Car {
                 ", year=" + year +
                 ", isManual=" + isManual +
                 '}';
-    }
-
-    // Equals and HashCode (optional)
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Car car = (Car) o;
-        return isManual == car.isManual &&
-                brand.equals(car.brand) &&
-                model.equals(car.model) &&
-                year.equals(car.year);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(brand, model, year, isManual);
     }
 }

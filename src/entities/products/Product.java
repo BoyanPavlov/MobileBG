@@ -4,10 +4,10 @@ import java.time.LocalDate;
 import java.util.UUID;
 
 public class Product {
-    private String name;
-    private String category;
-    private LocalDate createdAt;
-    private final UUID id;
+    protected String name;
+    protected String category;
+    protected LocalDate createdAt;
+    protected final UUID id;
 
     // Constructor
     public Product(String name, String category, LocalDate createdAt) {
