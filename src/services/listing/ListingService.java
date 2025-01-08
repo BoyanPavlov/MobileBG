@@ -1,7 +1,6 @@
 package services.listing;
 
 import entities.Listing;
-import entities.search.Filter;
 
 import java.util.List;
 

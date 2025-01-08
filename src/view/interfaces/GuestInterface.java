@@ -1,6 +1,8 @@
 package view.interfaces;
 
 import entities.Listing;
+import history.SearchHistory;
+import history.SearchMemento;
 import services.listing.ListingService;
 
 import java.util.List;
@@ -10,10 +12,13 @@ import java.util.Scanner;
 public class GuestInterface extends UserInterface {
     private final ListingService listingService;
     private final Scanner scanner;
+    private final SearchHistory searchHistory;
+
 
     public GuestInterface(ListingService listingService) {
         this.listingService = listingService;
         this.scanner = new Scanner(System.in);
+        this.searchHistory = new SearchHistory();
     }
 
     @Override
@@ -22,7 +27,8 @@ public class GuestInterface extends UserInterface {
             System.out.println("\n=== Guest Menu ===");
             System.out.println("1. Show All Listings");
             System.out.println("2. Search a Listing");
-            System.out.println("3. Exit to Main Menu");
+            System.out.println("3. View Search History");
+            System.out.println("4. Exit to Main Menu");
             System.out.print("Choose an option: ");
 
             int choice = scanner.nextInt();
@@ -31,8 +37,8 @@ public class GuestInterface extends UserInterface {
             switch (choice) {
                 case 1 -> showAllListings();
                 case 2 -> searchListing();
-                //case 3 -> viewSearchHistory();
-                case 3 -> {
+                case 3 -> viewSearchHistory();
+                case 4 -> {
                     System.out.println("Exiting to main menu...");
                     return;
                 }
@@ -81,6 +87,46 @@ public class GuestInterface extends UserInterface {
             }
         }
     }
+
+    private void viewSearchHistory() {
+        List<SearchMemento> history = searchHistory.getHistory();
+
+        if (history.isEmpty()) {
+            System.out.println("No search history available.");
+            return;
+        }
+
+        while (true) {
+            System.out.println("\n=== Search History ===");
+            for (int i = 0; i < history.size(); i++) {
+                SearchMemento memento = history.get(i);
+                System.out.println((i + 1) + ". " + memento.getFilterDescription());
+            }
+
+            System.out.print("Enter the number of a search to view its results, or any other key to go back: ");
+            String input = scanner.nextLine().trim();
+
+            try {
+                int choice = Integer.parseInt(input);
+
+                if (choice > 0 && choice <= history.size()) {
+                    SearchMemento selectedMemento = history.get(choice - 1);
+                    displayResults(selectedMemento.getResults());
+                } else if (choice == 0) {
+                    System.out.println("Returning to previous menu...");
+                    return;
+                } else {
+                    System.out.println("Invalid choice. Please enter a valid number.");
+                }
+            } catch (NumberFormatException e) {
+                // Non-numeric input exits the menu
+                System.out.println("Exiting search history menu...");
+                return;
+            }
+        }
+    }
+
+
 
     private void applyRangeFilter() {
         while (true) {
@@ -131,6 +177,8 @@ public class GuestInterface extends UserInterface {
 
         List<Listing> results = listingService.searchByRangePrice(min, max);
         displayResults(results);
+
+        saveSearchHistory("Price range: " + min + " to " + max, results);
     }
 
     private void applyYearRangeFilter() {
@@ -156,6 +204,8 @@ public class GuestInterface extends UserInterface {
 
         List<Listing> results = listingService.searchByRangeYear(minYear, maxYear);
         displayResults(results);
+
+        saveSearchHistory("Year range: " + minYear + " to " + maxYear, results);
     }
 
 
@@ -165,6 +215,8 @@ public class GuestInterface extends UserInterface {
 
         List<Listing> results = listingService.searchByKeyword(keyword);
         displayResults(results);
+
+        saveSearchHistory("Keyword search: " + keyword, results);
     }
 
     private void applyExactValueSearch() {
@@ -173,6 +225,8 @@ public class GuestInterface extends UserInterface {
 
         List<Listing> results = listingService.searchByExactValue(value);
         displayResults(results);
+
+        saveSearchHistory("Exact value search: " + value, results);
     }
 
     private void displayResults(List<Listing> results) {
@@ -182,4 +236,15 @@ public class GuestInterface extends UserInterface {
             results.forEach(System.out::println);
         }
     }
+
+    private void saveSearchHistory(String filterDescription, List<Listing> results) {
+        if (results.isEmpty()) {
+            System.out.println("No results to save in history.");
+            return;
+        }
+
+        SearchMemento memento = new SearchMemento(filterDescription, results);
+        searchHistory.addMemento(memento);
+    }
+
 }
