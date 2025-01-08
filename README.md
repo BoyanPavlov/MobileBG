@@ -34,7 +34,7 @@
 3. history of searching
 
 
-## TODO
+## Notes to myself for implementation
 
 ### How to connect them
 1. Services(things which has operations: add, delete and so on) - inject in repositories
