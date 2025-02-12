@@ -1,3 +1,5 @@
+import config.NotificationConfig;
+import entities.notifiers.NotificationManager;
 import entities.search.CaseInsensitiveFilter;
 import entities.search.ExactValueFilter;
 import entities.search.Filter;
@@ -11,12 +13,15 @@ import repositories.user.UserRepositoryImpl;
 import services.car.CarServiceImpl;
 import services.listing.ListingService;
 import services.listing.ListingServiceImpl;
+import services.notifications.NotificationService;
 import services.product.ProductServiceImpl;
 import services.productCar.ProductCarServiceImpl;
+import services.user.UserService;
 import services.user.UserServiceImpl;
 import view.ConsoleView;
 
 import java.util.List;
+import java.util.UUID;
 
 //TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or
 // click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
@@ -158,9 +163,23 @@ public class Main {
 //        productService.listAllProducts();
 //    }
 
+
     public static void main(String[] args) {
+
+        var userRepository = new UserRepositoryImpl();
+        var userService = new UserServiceImpl(userRepository);
+
+        NotificationManager notificationManager = new NotificationManager();
+
+        // Inject UserService into NotificationConfig
+        NotificationConfig notificationConfig = new NotificationConfig(userService,notificationManager);
+        NotificationService notificationService = notificationConfig.getNotificationService();
+
+        //Notify all users when they log in
+        sendWelcomeNotifications(userService, notificationService);
+
         // Initialize repositories and services
-        ListingService listingService = initializeServices();
+        ListingService listingService = initializeServices(userService);
 
         // Initialize the console view
         ConsoleView consoleView = new ConsoleView(listingService);
@@ -169,14 +188,12 @@ public class Main {
         consoleView.start();
     }
 
-    private static ListingService initializeServices() {
+    private static ListingService initializeServices(UserService userService) {
         // Repositories
-        var userRepository = new UserRepositoryImpl();
         var productRepository = new ProductRepositoryImpl();
         var carRepository = new CarRepositoryImpl();
 
         // Services
-        var userService = new UserServiceImpl(userRepository);
         var productService = new ProductServiceImpl(productRepository);
         var carService = new CarServiceImpl(carRepository);
         var productCarService = new ProductCarServiceImpl(productService, carService);
@@ -184,5 +201,14 @@ public class Main {
         // Listing Repository and Service
         ListingRepository listingRepository = new ListingRepositoryImpl(productCarService, userService);
         return new ListingServiceImpl(listingRepository);
+    }
+
+    private static void sendWelcomeNotifications(UserService userService, NotificationService notificationService) {
+        System.out.println("🔔 Sending welcome messages to all users...");
+
+        for (var user : userService.getUsers()) {
+            UUID userId = user.getId();
+            notificationService.notifyUser(userId, "Welcome!", "Hello " + user.getName() + ", welcome to our platform!");
+        }
     }
 }
