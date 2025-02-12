@@ -31,7 +31,7 @@ public class ConsoleView {
 
             switch (choice) {
                 case 1 -> userInterface = new GuestInterface(listingService);
-                //case 2 -> userInterface = new LogInInterface() ;
+                //case 2 -> userInterface = new LoggedUserInterface(listingService) ;
                 //case 3 -> userInterface = new RegisterInterface() ;
                 case 4 -> {
                     System.out.println("Exiting... Goodbye!");
