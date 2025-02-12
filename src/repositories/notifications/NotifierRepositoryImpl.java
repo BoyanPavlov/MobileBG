@@ -1,13 +1,17 @@
 package repositories.notifiers.impl;
 
-import entities.notifiers.*;
+import entities.notifiers.EmailNotifier;
 import entities.notifiers.Observer;
+import entities.notifiers.PigeonNotifier;
+import entities.notifiers.SmsNotifier;
 import entities.users.LoggedInUser;
 import entities.users.User;
 import repositories.notifications.NotifierRepository;
 import services.user.UserService;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.UUID;
 
 public class NotifierRepositoryImpl implements NotifierRepository {
     private final List<Observer> notifiers = new ArrayList<>();
