@@ -1,6 +1,5 @@
 package view;
 
-import entities.users.LoggedInUser;
 import entities.users.User;
 import services.listing.ListingService;
 import services.user.UserService;
