@@ -80,8 +80,12 @@ public class ConsoleView {
 
     private void handleRegistration() {
         System.out.println("\n=== Registration ===");
-        System.out.print("Enter username: ");
-        String username = scanner.nextLine().trim();
+
+        System.out.print("Enter your name: ");
+        String name = scanner.nextLine().trim();
+
+        System.out.print("Enter your email: ");
+        String email = scanner.nextLine().trim();
 
         System.out.print("Enter password: ");
         String password = scanner.nextLine().trim();
@@ -90,23 +94,21 @@ public class ConsoleView {
         String confirmPassword = scanner.nextLine().trim();
 
         if (!password.equals(confirmPassword)) {
-            System.out.println("Passwords do not match!");
+            System.out.println("❌ Passwords do not match!");
             return;
         }
-
-        System.out.print("Enter email: ");
-        String email = scanner.nextLine().trim();
 
         System.out.print("Enter phone number: ");
         String phone = scanner.nextLine().trim();
 
-        System.out.print("Enter address: ");
+        System.out.print("Enter your address: ");
         String address = scanner.nextLine().trim();
 
-        LoggedInUser newUser = new LoggedInUser(username, password, email, phone, address);
+        User newUser = userService.registerUser(name, email, password, phone, address);
 
-        userService.addUser(newUser);
-
-        System.out.println("Registration successful! Please login.");
+        if (newUser == null) {
+            System.out.println("❌ Registration failed. Please try again.");
+        }
     }
+
 }

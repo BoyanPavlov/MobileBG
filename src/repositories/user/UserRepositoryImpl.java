@@ -21,7 +21,7 @@ public class UserRepositoryImpl implements UserRepository {
     }
 
     @Override
-    public List<User> findAll() {
+    public List<User> getAllUsers() {
         return new ArrayList<>(users);
     }
 }
