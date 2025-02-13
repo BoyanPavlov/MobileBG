@@ -3,7 +3,6 @@ package view;
 import entities.users.LoggedInUser;
 import entities.users.User;
 import services.listing.ListingService;
-import services.productCar.ProductCarService;
 import services.user.UserService;
 import view.interfaces.GuestInterface;
 import view.interfaces.LoggedUserInterface;
@@ -16,13 +15,11 @@ public class ConsoleView {
     private UserInterface userInterface;
     private final ListingService listingService;
     private final UserService userService;
-    //private final ProductCarService productCarService;
 
-    public ConsoleView(ListingService listingService, UserService userService, ProductCarService productCarService) {
+    public ConsoleView(ListingService listingService, UserService userService) {
         this.listingService = listingService;
         this.userService = userService;
         this.scanner = new Scanner(System.in);
-        //this.productCarService = productCarService;
         this.userInterface = null;
     }
 

@@ -21,28 +21,7 @@ public abstract class UserInterface {
         this.searchHistory = new SearchHistory();
     }
 
-    public void showWelcome() {
-        if (this.user != null && this.user.getName() != null) {
-            System.out.println("Have a nice day, " + user.getName() + "!\n");
-        }
-    }
-
     public abstract void showMenu();
-
-    protected boolean readYesOrNo() {
-        System.out.println("Please enter Y/N: ");
-        while (true) {
-            String input = SCANNER.nextLine().trim().toUpperCase(); // ✅ Use shared scanner
-            switch (input) {
-                case "Y":
-                    return true;
-                case "N":
-                    return false;
-                default:
-                    System.out.println("Invalid input. Please enter Y/N\n");
-            }
-        }
-    }
 
     protected void showAllListings() {
         List<Listing> listings = listingService.getAllListings();

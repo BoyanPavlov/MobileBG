@@ -183,7 +183,7 @@ public class Main {
         ListingService listingService = new ListingServiceImpl(listingRepository,productCarService);
 
         // Initialize the console view
-        ConsoleView consoleView = new ConsoleView(listingService,userService,productCarService);
+        ConsoleView consoleView = new ConsoleView(listingService,userService);
 
         // Start the console view
         consoleView.start();
