@@ -1,10 +1,5 @@
 import config.NotificationConfig;
 import entities.notifiers.NotificationManager;
-import entities.search.CaseInsensitiveFilter;
-import entities.search.ExactValueFilter;
-import entities.search.Filter;
-import entities.search.RangeFilter;
-import entities.vehicles.Car;
 import repositories.car.CarRepositoryImpl;
 import repositories.listing.ListingRepository;
 import repositories.listing.ListingRepositoryImpl;
@@ -20,7 +15,6 @@ import services.user.UserService;
 import services.user.UserServiceImpl;
 import view.ConsoleView;
 
-import java.util.List;
 import java.util.UUID;
 
 //TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or
@@ -165,8 +159,15 @@ public class Main {
 
 
     public static void main(String[] args) {
-
+        // Repositories
+        var productRepository = new ProductRepositoryImpl();
+        var carRepository = new CarRepositoryImpl();
         var userRepository = new UserRepositoryImpl();
+
+        // Services
+        var productService = new ProductServiceImpl(productRepository);
+        var carService = new CarServiceImpl(carRepository);
+        var productCarService = new ProductCarServiceImpl(productService, carService);
         var userService = new UserServiceImpl(userRepository);
 
         NotificationManager notificationManager = new NotificationManager();
@@ -178,29 +179,14 @@ public class Main {
         //Notify all users when they log in
         sendWelcomeNotifications(userService, notificationService);
 
-        // Initialize repositories and services
-        ListingService listingService = initializeServices(userService);
+        ListingRepository listingRepository = new ListingRepositoryImpl(productCarService, userService);
+        ListingService listingService = new ListingServiceImpl(listingRepository,productCarService);
 
         // Initialize the console view
-        ConsoleView consoleView = new ConsoleView(listingService,userService);
+        ConsoleView consoleView = new ConsoleView(listingService,userService,productCarService);
 
         // Start the console view
         consoleView.start();
-    }
-
-    private static ListingService initializeServices(UserService userService) {
-        // Repositories
-        var productRepository = new ProductRepositoryImpl();
-        var carRepository = new CarRepositoryImpl();
-
-        // Services
-        var productService = new ProductServiceImpl(productRepository);
-        var carService = new CarServiceImpl(carRepository);
-        var productCarService = new ProductCarServiceImpl(productService, carService);
-
-        // Listing Repository and Service
-        ListingRepository listingRepository = new ListingRepositoryImpl(productCarService, userService);
-        return new ListingServiceImpl(listingRepository);
     }
 
     private static void sendWelcomeNotifications(UserService userService, NotificationService notificationService) {

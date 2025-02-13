@@ -18,24 +18,44 @@ public class ProductCarServiceImpl implements ProductCarService {
 
     @Override
     public void addProduct(Product product) {
+        if (product == null) {
+            System.out.println("❌ Cannot add a null product.");
+            return;
+        }
         productService.addProduct(product);
-        System.out.println("Product added: " + product);
+        System.out.println("✅ Product added: " + product);
     }
 
     @Override
     public void addCar(Car car) {
+        if (car == null) {
+            System.out.println("❌ Cannot add a null car.");
+            return;
+        }
         carService.addCar(car);
-        System.out.println("Car added: " + car);
+        System.out.println("✅ Car added: " + car);
     }
 
     @Override
     public void listProducts() {
-        productService.listAllProducts();
+        List<Product> products = productService.getProducts();
+        if (products.isEmpty()) {
+            System.out.println("No products available.");
+        } else {
+            System.out.println("\n=== Products ===");
+            products.forEach(System.out::println);
+        }
     }
 
     @Override
     public void listCars() {
-        carService.listAllCars();
+        List<Car> cars = carService.getCars();
+        if (cars.isEmpty()) {
+            System.out.println("No cars available.");
+        } else {
+            System.out.println("\n=== Cars ===");
+            cars.forEach(System.out::println);
+        }
     }
 
     @Override
@@ -48,4 +68,3 @@ public class ProductCarServiceImpl implements ProductCarService {
         return productService.getProducts();
     }
 }
-

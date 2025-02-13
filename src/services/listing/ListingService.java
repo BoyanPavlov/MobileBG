@@ -1,24 +1,16 @@
 package services.listing;
 
 import entities.Listing;
+import entities.users.User;
 
+import java.time.LocalDate;
 import java.util.List;
 
 public interface ListingService {
 
-    void addListing(Listing listing);
+    void createCarListing(String brand, String model, int year, boolean isManual, double price, boolean isSponsored, User user);
 
-//    void createCarListing(User user, Car car, double price, String description);
-//
-//    void createProductListing(User user, Product product, double price); // No description, uses date
-//
-//    Product getProductById(UUID productId);
-//
-//    List<Product> getAllProducts();
-//
-//    User getUserById(UUID userId);
-//
-//    List<User> getAllUsers();
+    void createProductListing(String productName, String category, LocalDate createdAt, double price, boolean isSponsored, User user);
 
     List<Listing> getAllListings();
 

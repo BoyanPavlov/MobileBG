@@ -2,16 +2,11 @@ package view.interfaces;
 
 import services.listing.ListingService;
 
-import java.util.Scanner;
-
 
 public class GuestInterface extends UserInterface {
-    private final Scanner scanner;
-
 
     public GuestInterface(ListingService listingService) {
         super(listingService, null);
-        this.scanner = new Scanner(System.in);
     }
 
     @Override
@@ -24,8 +19,8 @@ public class GuestInterface extends UserInterface {
             System.out.println("4. Exit to Main Menu");
             System.out.print("Choose an option: ");
 
-            int choice = scanner.nextInt();
-            scanner.nextLine(); // Consume newline
+            int choice = SCANNER.nextInt();
+            SCANNER.nextLine(); // Consume newline
 
             switch (choice) {
                 case 1 -> showAllListings();

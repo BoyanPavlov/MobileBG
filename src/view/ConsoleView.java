@@ -3,6 +3,7 @@ package view;
 import entities.users.LoggedInUser;
 import entities.users.User;
 import services.listing.ListingService;
+import services.productCar.ProductCarService;
 import services.user.UserService;
 import view.interfaces.GuestInterface;
 import view.interfaces.LoggedUserInterface;
@@ -14,12 +15,14 @@ public class ConsoleView {
     private final Scanner scanner;
     private UserInterface userInterface;
     private final ListingService listingService;
-    private final UserService userService; // Inject UserService
+    private final UserService userService;
+    //private final ProductCarService productCarService;
 
-    public ConsoleView(ListingService listingService, UserService userService) {
+    public ConsoleView(ListingService listingService, UserService userService, ProductCarService productCarService) {
         this.listingService = listingService;
         this.userService = userService;
         this.scanner = new Scanner(System.in);
+        //this.productCarService = productCarService;
         this.userInterface = null;
     }
 
@@ -39,7 +42,7 @@ public class ConsoleView {
                 case "2" -> {
                     User user = handleLogin();
                     if (user != null) {
-                        userInterface = new LoggedUserInterface(listingService, userService, user);
+                        userInterface = new LoggedUserInterface(listingService, user);
                     }
                 }
                 case "3" -> handleRegistration();

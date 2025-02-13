@@ -7,6 +7,6 @@ import java.util.List;
 public interface ListingRepository {
     void save(Listing listing);
 
-    List<Listing> findAll();
+    List<Listing> getAllListings();
 }
 

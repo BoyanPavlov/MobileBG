@@ -67,7 +67,7 @@ public class ListingRepositoryImpl implements ListingRepository {
     }
 
     @Override
-    public List<Listing> findAll() {
+    public List<Listing> getAllListings() {
         return new ArrayList<>(listings);
     }
 }

@@ -11,9 +11,9 @@ import java.util.Scanner;
 
 public abstract class UserInterface {
     protected final User user;
-    private final ListingService listingService;
-    private final SearchHistory searchHistory;
-    private static final Scanner SCANNER = new Scanner(System.in);
+    protected final ListingService listingService;
+    protected final SearchHistory searchHistory;
+    protected static final Scanner SCANNER = new Scanner(System.in);
 
     public UserInterface(ListingService listingService, User user) {
         this.user = user;
@@ -28,11 +28,6 @@ public abstract class UserInterface {
     }
 
     public abstract void showMenu();
-
-    public void enter() {
-        showWelcome();
-        showMenu();
-    }
 
     protected boolean readYesOrNo() {
         System.out.println("Please enter Y/N: ");
