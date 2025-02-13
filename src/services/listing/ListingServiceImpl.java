@@ -83,14 +83,14 @@ public class ListingServiceImpl implements ListingService {
                 (int) min, (int) max
         );
 
-        return filterListings(List.of(yearFilter));
+        return filterListingsAllMatch(List.of(yearFilter));
     }
 
     @Override
     public List<Listing> searchByRangePrice(double min, double max) {
         Filter<Listing> priceFilter = new RangeFilter<>(Listing::price, min, max);
 
-        return filterListings(List.of(priceFilter));
+        return filterListingsAllMatch(List.of(priceFilter));
     }
 
     @Override
@@ -98,7 +98,7 @@ public class ListingServiceImpl implements ListingService {
         Filter<Listing> titleFilter = new CaseInsensitiveFilter<>(Listing::title, keyword);
         Filter<Listing> descriptionFilter = new CaseInsensitiveFilter<>(Listing::description, keyword);
 
-        return filterListings(List.of(titleFilter, descriptionFilter));
+        return filterListingsAnyMatch(List.of(titleFilter, descriptionFilter));
     }
 
     @Override
@@ -106,10 +106,18 @@ public class ListingServiceImpl implements ListingService {
         Filter<Listing> titleFilter = new ExactValueFilter<>(Listing::title, value);
         Filter<Listing> descriptionFilter = new ExactValueFilter<>(Listing::description, value);
 
-        return filterListings(List.of(titleFilter, descriptionFilter));
+        return filterListingsAnyMatch(List.of(titleFilter, descriptionFilter)); // ✅ Use `anyMatch`
     }
 
-    private List<Listing> filterListings(List<Filter<Listing>> filters) {
+    private List<Listing> filterListingsAnyMatch(List<Filter<Listing>> filters) {
+        List<Listing> allListings = listingRepository.getAllListings();
+        return allListings.stream()
+                .filter(listing -> filters.stream().anyMatch(filter -> filter.matches(listing)))
+                .collect(Collectors.toList());
+    }
+
+
+    private List<Listing> filterListingsAllMatch(List<Filter<Listing>> filters) {
         List<Listing> allListings = listingRepository.getAllListings();
         return allListings.stream()
                 .filter(listing -> filters.stream().allMatch(filter -> filter.matches(listing)))
