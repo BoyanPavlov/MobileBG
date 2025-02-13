@@ -1,12 +1,8 @@
 package services.listing;
 
 import entities.Listing;
-import entities.products.Product;
-import entities.users.User;
-import entities.vehicles.Car;
 
 import java.util.List;
-import java.util.UUID;
 
 public interface ListingService {
 

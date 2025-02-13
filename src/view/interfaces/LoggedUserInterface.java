@@ -1,14 +1,9 @@
 package view.interfaces;
 
-import entities.products.Product;
 import entities.users.User;
-import entities.vehicles.Car;
 import services.listing.ListingService;
 import services.user.UserService;
 
-import java.time.LocalDate;
-import java.time.format.DateTimeParseException;
-import java.util.List;
 import java.util.Scanner;
 
 public class LoggedUserInterface extends UserInterface {
@@ -16,7 +11,7 @@ public class LoggedUserInterface extends UserInterface {
     private final Scanner scanner;
 
     public LoggedUserInterface(ListingService listingService, UserService userService, User user) {
-        super(listingService,user);
+        super(listingService, user);
         this.scanner = new Scanner(System.in);
     }
 

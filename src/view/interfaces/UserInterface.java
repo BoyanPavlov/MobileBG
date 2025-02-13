@@ -129,7 +129,6 @@ public abstract class UserInterface {
     }
 
 
-
     private void applyRangeFilter() {
         while (true) {
             try {
