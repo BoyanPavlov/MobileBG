@@ -39,44 +39,7 @@
 3. history of searching
 
 
-## Notes to myself for implementation
 
-### How to connect them
-1. Services(things which has operations: add, delete and so on) - inject in repositories
-2. Repositories has the data from the "database". In my case: hard coded data
-3. Add "Bigger" services which are using the smaller ones
-   - example: Listing service, combining User service, Product service
-4. Using the "Bigger" services - apply the searching and filters.
-
-service:
-link user - listing - product
-
-service 
-link listing - product
-addListing()
-
-
-
-user - guestService, LoggedUserService ?
-addUser()
-DeleteUser(us, pw)
-FindUser(username,password)
-
-mixedService should be able to work with these
-
-changePassword(newPwd)
-changeName(username,password, newName)
-changeEmail(newEmail)
-getEmail()
-changePhoneNumber(numbr)
-getPhoneNumber(numbr)
-getAddress()
-changeAddress(address)
-
-add listing
-show all listings
-show my listings
-search product == open listing
 
 
 
