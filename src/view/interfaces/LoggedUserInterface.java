@@ -31,6 +31,7 @@ public class LoggedUserInterface extends UserInterface {
 
             switch (choice) {
                 case "1" -> createListing();
+                case "2" -> deleteListing();
                 case "3" -> showMyListings();
                 case "4" -> showAllListings();
                 case "5" -> searchListing();
@@ -135,6 +136,41 @@ public class LoggedUserInterface extends UserInterface {
         boolean isSponsored = Boolean.parseBoolean(SCANNER.nextLine().trim());
 
         listingService.createProductListing(productName, category, createdAt, price, isSponsored, user);
+    }
+
+    private void deleteListing() {
+        System.out.println("\n=== Delete a Listing ===");
+        List<Listing> userListings = listingService.getListingsByUser(user);
+
+        if (userListings.isEmpty()) {
+            System.out.println("❌ You have no listings to delete.");
+            return;
+        }
+
+        for (int i = 0; i < userListings.size(); i++) {
+            System.out.printf("%d. %s%n", i + 1, userListings.get(i));
+        }
+
+        System.out.print("\nEnter the number of the listing to delete (0 to cancel): ");
+
+        int listingIndex;
+        try {
+            listingIndex = Integer.parseInt(SCANNER.nextLine().trim());
+        } catch (NumberFormatException e) {
+            System.out.println("❌ Invalid input. Please enter a number.");
+            return;
+        }
+
+        if (listingIndex == 0) {
+            System.out.println("❌ Deletion canceled.");
+            return;
+        }
+
+        if (listingService.deleteListing(user, listingIndex)) {
+            System.out.println("✅ Listing deleted successfully!");
+        } else {
+            System.out.println("❌ Invalid selection. No listing deleted.");
+        }
     }
 
     private void showMyListings() {

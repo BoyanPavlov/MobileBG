@@ -67,6 +67,11 @@ public class ListingRepositoryImpl implements ListingRepository {
     }
 
     @Override
+    public boolean removeListing(Listing listing) {
+        return listings.remove(listing);
+    }
+
+    @Override
     public List<Listing> getAllListings() {
         return new ArrayList<>(listings);
     }

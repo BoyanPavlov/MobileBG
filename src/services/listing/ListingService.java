@@ -12,6 +12,8 @@ public interface ListingService {
 
     void createProductListing(String productName, String category, LocalDate createdAt, double price, boolean isSponsored, User user);
 
+    boolean deleteListing(User user, int listingIndex);
+
     List<Listing> getAllListings();
 
     List<Listing> getListingsByUser(User user);

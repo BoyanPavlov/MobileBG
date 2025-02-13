@@ -65,6 +65,19 @@ public class ListingServiceImpl implements ListingService {
     }
 
     @Override
+    public boolean deleteListing(User user, int listingIndex) {
+        List<Listing> userListings = getListingsByUser(user);
+
+        if (listingIndex < 1 || listingIndex > userListings.size()) {
+            return false; // Invalid index
+        }
+
+        Listing listingToDelete = userListings.get(listingIndex - 1); // Adjusting for 1-based index
+        return listingRepository.removeListing(listingToDelete); // ✅ Deletes from repository
+    }
+
+
+    @Override
     public List<Listing> getAllListings() {
         return listingRepository.getAllListings();
     }
