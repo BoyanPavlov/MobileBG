@@ -182,7 +182,7 @@ public class Main {
         ListingService listingService = initializeServices(userService);
 
         // Initialize the console view
-        ConsoleView consoleView = new ConsoleView(listingService);
+        ConsoleView consoleView = new ConsoleView(listingService,userService);
 
         // Start the console view
         consoleView.start();

@@ -75,6 +75,10 @@ search product == open listing
 
 problem listing service should filter, not any interface.
 
+user interface has user in it.
+login interface should inherit userInterface
+pass the user as construct arg
+register and login can be functions in console view.
 
 
 

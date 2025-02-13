@@ -2,9 +2,9 @@ package config;
 
 import entities.notifiers.NotificationManager;
 import repositories.notifications.NotifierRepository;
+import repositories.notifications.NotifierRepositoryImpl;
 import services.notifications.NotificationService;
 import services.notifications.NotificationServiceImpl;
-import repositories.notifiers.impl.NotifierRepositoryImpl;
 import services.user.UserService;
 
 public class NotificationConfig {
