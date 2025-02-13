@@ -7,6 +7,8 @@ import java.util.List;
 public interface ListingRepository {
     void save(Listing listing);
 
-    List<Listing> findAll();
+    boolean removeListing(Listing listing);
+
+    List<Listing> getAllListings();
 }
 

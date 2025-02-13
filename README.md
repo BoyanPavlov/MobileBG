@@ -1,5 +1,10 @@
 # Uni version of the Mobile.bg
 
+**Used design patterns in the project:**
+- Memento
+- Observer
+- Repository
+
 ## How does the app starts:
 
 - Login
@@ -73,7 +78,6 @@ show all listings
 show my listings
 search product == open listing
 
-problem listing service should filter, not any interface.
 
 
 
