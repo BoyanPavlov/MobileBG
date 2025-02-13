@@ -1,11 +1,11 @@
 package services.listing;
 
 import entities.Listing;
-import entities.products.Product;
 import entities.filters.CaseInsensitiveFilter;
 import entities.filters.ExactValueFilter;
 import entities.filters.Filter;
 import entities.filters.RangeFilter;
+import entities.products.Product;
 import entities.users.User;
 import entities.vehicles.Car;
 import repositories.listing.ListingRepository;
@@ -67,6 +67,13 @@ public class ListingServiceImpl implements ListingService {
     @Override
     public List<Listing> getAllListings() {
         return listingRepository.getAllListings();
+    }
+
+    @Override
+    public List<Listing> getListingsByUser(User user) {
+        return listingRepository.getAllListings().stream()
+                .filter(listing -> listing.creator().equals(user))
+                .collect(Collectors.toList());
     }
 
     private Integer extractCreatedAtYear(Object product) {

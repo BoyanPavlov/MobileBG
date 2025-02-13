@@ -14,6 +14,8 @@ public interface ListingService {
 
     List<Listing> getAllListings();
 
+    List<Listing> getListingsByUser(User user);
+
     List<Listing> searchByRangeYear(int min, int max);
 
     List<Listing> searchByRangePrice(double min, double max);

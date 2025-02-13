@@ -1,10 +1,12 @@
 package view.interfaces;
 
+import entities.Listing;
 import entities.users.User;
 import services.listing.ListingService;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeParseException;
+import java.util.List;
 
 public class LoggedUserInterface extends UserInterface {
 
@@ -29,6 +31,7 @@ public class LoggedUserInterface extends UserInterface {
 
             switch (choice) {
                 case "1" -> createListing();
+                case "3" -> showMyListings();
                 case "4" -> showAllListings();
                 case "5" -> searchListing();
                 case "6" -> viewSearchHistory();
@@ -132,5 +135,17 @@ public class LoggedUserInterface extends UserInterface {
         boolean isSponsored = Boolean.parseBoolean(SCANNER.nextLine().trim());
 
         listingService.createProductListing(productName, category, createdAt, price, isSponsored, user);
+    }
+
+    private void showMyListings() {
+        System.out.println("\n=== My Listings ===");
+        List<Listing> userListings = listingService.getListingsByUser(user);
+
+        if (userListings.isEmpty()) {
+            System.out.println("❌ You have no active listings.");
+            return;
+        }
+
+        userListings.forEach(System.out::println);
     }
 }
