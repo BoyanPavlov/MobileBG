@@ -25,4 +25,12 @@ public interface ListingService {
     List<Listing> searchByKeyword(String keyword);
 
     List<Listing> searchByExactValue(String value);
+
+    /**
+     * Search listings using a complex filter expression.
+     * Example: "brand = 'BMW' & year > 2015"
+     * @param filterExpression The filter expression
+     * @return List of listings matching the filter
+     */
+    List<Listing> searchByComplexFilter(String filterExpression);
 }

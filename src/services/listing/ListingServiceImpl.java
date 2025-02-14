@@ -2,6 +2,7 @@ package services.listing;
 
 import entities.Listing;
 import entities.filters.CaseInsensitiveFilter;
+import entities.filters.ComplexFilter;
 import entities.filters.ExactValueFilter;
 import entities.filters.Filter;
 import entities.filters.RangeFilter;
@@ -129,6 +130,15 @@ public class ListingServiceImpl implements ListingService {
         return filterListingsAnyMatch(List.of(titleFilter, descriptionFilter)); // ✅ Use `anyMatch`
     }
 
+
+    @Override
+    public List<Listing> searchByComplexFilter(String filterExpression) {
+        ComplexFilter filter = new ComplexFilter(filterExpression);
+        return listingRepository.getAllListings().stream()
+                .filter(filter::matches)
+                .collect(Collectors.toList());
+    }
+
     private List<Listing> filterListingsAnyMatch(List<Filter<Listing>> filters) {
         List<Listing> allListings = listingRepository.getAllListings();
         return allListings.stream()
@@ -144,4 +154,3 @@ public class ListingServiceImpl implements ListingService {
                 .collect(Collectors.toList());
     }
 }
-

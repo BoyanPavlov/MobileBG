@@ -39,6 +39,7 @@ public abstract class UserInterface {
                 System.out.println("1. Range Filter");
                 System.out.println("2. Case-Insensitive Search");
                 System.out.println("3. Exact Value Search");
+                System.out.println("4. Complex Filter");
                 System.out.print("Choose a filter: ");
 
                 int filterChoice = Integer.parseInt(SCANNER.nextLine().trim()); // Secure input with parsing
@@ -56,7 +57,11 @@ public abstract class UserInterface {
                         applyExactValueSearch();
                         return;
                     }
-                    default -> System.out.println("Invalid filter choice. Please enter a number between 1 and 3.");
+                    case 4 -> {
+                        applyComplexFilter();
+                        return;
+                    }
+                    default -> System.out.println("Invalid filter choice. Please enter a number between 1 and 4.");
                 }
             } catch (NumberFormatException e) {
                 System.out.println("Invalid input! Please enter a valid number.");
@@ -202,6 +207,29 @@ public abstract class UserInterface {
         displayResults(results);
 
         saveSearchHistory("Exact value search: " + value, results);
+    }
+
+    private void applyComplexFilter() {
+        System.out.println("\n=== Complex Filter ===");
+        System.out.println("Enter your filter expression. You can use simple or detailed format.");
+        System.out.println("\nSimple format examples:");
+        System.out.println("bmw && year > 2000");
+        System.out.println("bmw || audi");
+        System.out.println("Audi && year>=2020 && price<50000");
+        System.out.println("\nDetailed format examples:");
+        System.out.println("- brand = 'BMW' && year > 2015");
+        System.out.println("- price < 50000 && year >= 2020");
+        System.out.println("\nSupported fields: brand, model, year, price");
+        System.out.println("Supported operators: =, >, <, >=, <=");
+        System.out.println("Logical operators: && (AND), || (OR)");
+        System.out.print("\nEnter your filter expression: ");
+
+        String filterExpression = SCANNER.nextLine().trim();
+
+        List<Listing> results = listingService.searchByComplexFilter(filterExpression);
+        displayResults(results);
+
+        saveSearchHistory("Complex filter: " + filterExpression, results);
     }
 
     private void displayResults(List<Listing> results) {
