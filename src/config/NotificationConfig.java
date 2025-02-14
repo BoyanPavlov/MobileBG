@@ -11,7 +11,7 @@ public class NotificationConfig {
     private final NotificationService notificationService;
 
     public NotificationConfig(UserService userService, NotificationManager notificationManager) {
-        NotifierRepository notifierRepository = new NotifierRepositoryImpl(userService);
+        NotifierRepository notifierRepository = new NotifierRepositoryImpl(userService, notificationManager);
         notificationService = new NotificationServiceImpl(notificationManager, notifierRepository);
     }
 

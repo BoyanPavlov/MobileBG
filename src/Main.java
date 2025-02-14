@@ -168,33 +168,25 @@ public class Main {
         var productService = new ProductServiceImpl(productRepository);
         var carService = new CarServiceImpl(carRepository);
         var productCarService = new ProductCarServiceImpl(productService, carService);
-        var userService = new UserServiceImpl(userRepository);
-
-        NotificationManager notificationManager = new NotificationManager();
-
-        // Inject UserService into NotificationConfig
-        NotificationConfig notificationConfig = new NotificationConfig(userService,notificationManager);
-        NotificationService notificationService = notificationConfig.getNotificationService();
-
-        //Notify all users when they log in
-        sendWelcomeNotifications(userService, notificationService);
-
-        ListingRepository listingRepository = new ListingRepositoryImpl(productCarService, userService);
-        ListingService listingService = new ListingServiceImpl(listingRepository,productCarService);
-
-        // Initialize the console view
-        ConsoleView consoleView = new ConsoleView(listingService,userService);
+        ConsoleView consoleView = getConsoleView(userRepository, productCarService);
 
         // Start the console view
         consoleView.start();
     }
 
-    private static void sendWelcomeNotifications(UserService userService, NotificationService notificationService) {
-        System.out.println("🔔 Sending welcome messages to all users...");
+    private static ConsoleView getConsoleView(UserRepositoryImpl userRepository, ProductCarServiceImpl productCarService) {
+        var userService = new UserServiceImpl(userRepository);
 
-        for (var user : userService.getUsers()) {
-            UUID userId = user.getId();
-            notificationService.notifyUser(userId, "Welcome!", "Hello " + user.getName() + ", welcome to our platform!");
-        }
+        NotificationManager notificationManager = new NotificationManager();
+
+        // Inject UserService into NotificationConfig
+        NotificationConfig notificationConfig = new NotificationConfig(userService, notificationManager);
+        NotificationService notificationService = notificationConfig.getNotificationService();
+
+        ListingRepository listingRepository = new ListingRepositoryImpl(productCarService, userService);
+        ListingService listingService = new ListingServiceImpl(listingRepository, productCarService);
+
+        // Initialize the console view
+        return new ConsoleView(listingService, userService, notificationService);
     }
 }
