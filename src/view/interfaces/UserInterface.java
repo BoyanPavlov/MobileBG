@@ -212,15 +212,26 @@ public abstract class UserInterface {
     private void applyComplexFilter() {
         System.out.println("\n=== Complex Filter ===");
         System.out.println("Enter your filter expression. You can use simple or detailed format.");
-        System.out.println("\nSimple format examples:");
+        System.out.println("\nGeneral product filters:");
+        System.out.println("name = 'product name'");
+        System.out.println("category = 'Vehicle'");
+        System.out.println("price < 50000");
+        System.out.println("createdAt > 2024-01-01");
+        
+        System.out.println("\nVehicle-specific filters:");
         System.out.println("bmw && year > 2000");
         System.out.println("bmw || audi");
-        System.out.println("Audi && year>=2020 && price<50000");
-        System.out.println("\nDetailed format examples:");
-        System.out.println("- brand = 'BMW' && year > 2015");
-        System.out.println("- price < 50000 && year >= 2020");
-        System.out.println("\nSupported fields: brand, model, year, price");
-        System.out.println("Supported operators: =, >, <, >=, <=");
+        System.out.println("brand = 'BMW' && year > 2015");
+        System.out.println("price < 50000 && year >= 2020");
+        
+        System.out.println("\nCombined filters:");
+        System.out.println("category = 'Vehicle' && price < 50000");
+        System.out.println("name = 'Special Edition' && year > 2020");
+        
+        System.out.println("\nSupported fields:");
+        System.out.println("- General: name, category, price, createdAt");
+        System.out.println("- Vehicle: brand, model, year");
+        System.out.println("\nSupported operators: =, >, <, >=, <=");
         System.out.println("Logical operators: && (AND), || (OR)");
         System.out.print("\nEnter your filter expression: ");
 
