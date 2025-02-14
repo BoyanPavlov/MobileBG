@@ -11,11 +11,8 @@ import services.listing.ListingServiceImpl;
 import services.notifications.NotificationService;
 import services.product.ProductServiceImpl;
 import services.productCar.ProductCarServiceImpl;
-import services.user.UserService;
 import services.user.UserServiceImpl;
 import view.ConsoleView;
-
-import java.util.UUID;
 
 //TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or
 // click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
