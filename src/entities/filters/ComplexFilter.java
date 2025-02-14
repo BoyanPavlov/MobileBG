@@ -2,7 +2,6 @@ package entities.filters;
 
 import entities.Listing;
 import entities.products.Product;
-import entities.vehicles.Car;
 import entities.vehicles.Vehicle;
 
 import java.time.LocalDate;
@@ -25,7 +24,7 @@ public class ComplexFilter implements Filter<Listing> {
         if (listing == null || listing.product() == null) {
             return false;
         }
-        
+
         // At least one group must match (OR)
         return groups.stream().anyMatch(group -> group.matches(new ListingFilterMatcher(listing)));
     }
@@ -41,7 +40,7 @@ public class ComplexFilter implements Filter<Listing> {
         @Override
         public boolean matchesCondition(FilterCondition condition) {
             Product product = listing.product();
-            
+
             try {
                 // Generic product fields
                 boolean result = switch (condition.field().toLowerCase()) {
@@ -56,7 +55,7 @@ public class ComplexFilter implements Filter<Listing> {
                 return false;
             }
         }
-        
+
         private boolean matchSpecificProductFields(Product product, FilterCondition condition) {
             // Vehicle-specific fields
             if (product instanceof Vehicle vehicle) {
@@ -67,9 +66,9 @@ public class ComplexFilter implements Filter<Listing> {
                     default -> false;
                 };
             }
-            
+
             // Add more product types here if needed
-            
+
             return false;
         }
 
@@ -103,14 +102,14 @@ public class ComplexFilter implements Filter<Listing> {
                 return false;
             }
         }
-        
+
         private boolean matchDateCondition(LocalDate actual, FilterCondition condition) {
             if (actual == null) {
                 return false;
             }
             try {
                 LocalDate conditionValue = LocalDate.parse(condition.value(), DATE_FORMATTER);
-                
+
                 return switch (condition.operator()) {
                     case "=" -> actual.isEqual(conditionValue);
                     case ">" -> actual.isAfter(conditionValue);
