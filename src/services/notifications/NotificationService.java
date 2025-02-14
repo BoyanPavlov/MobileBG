@@ -9,5 +9,5 @@ public interface NotificationService {
 
     void unregisterNotifier(UUID userId, Observer notifier);
 
-    void notifyUser(UUID userId, String title, String message); // ✅ User-specific notifications
+    void notifyUser(UUID userId, String title, String message);
 }

@@ -2,6 +2,7 @@ package view;
 
 import entities.users.User;
 import services.listing.ListingService;
+import services.notifications.NotificationService;
 import services.user.UserService;
 import view.interfaces.GuestInterface;
 import view.interfaces.LoggedUserInterface;
@@ -14,12 +15,14 @@ public class ConsoleView {
     private UserInterface userInterface;
     private final ListingService listingService;
     private final UserService userService;
+    private final NotificationService notificationService;
 
-    public ConsoleView(ListingService listingService, UserService userService) {
+    public ConsoleView(ListingService listingService, UserService userService, NotificationService notificationService) {
         this.listingService = listingService;
         this.userService = userService;
         this.scanner = new Scanner(System.in);
         this.userInterface = null;
+        this.notificationService = notificationService;
     }
 
     public void start() {
@@ -70,6 +73,7 @@ public class ConsoleView {
 
             if (user != null) {
                 System.out.println("✅ Login successful. Welcome, " + user.getName() + "!");
+                notificationService.notifyUser(user.getId(), "Attention, 50% less in Fantastiko", "Did you shop yesterday, " + user.getName() + "?");
                 return user;
             } else {
                 System.out.println("❌ Invalid email or password. Please try again.");
